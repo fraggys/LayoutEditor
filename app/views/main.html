@@ -1,5 +1,6 @@
 <div style="border:1em">
     <button ng-click="addSourceArea()">Add Source Area</button>
+    <button ng-click="removeSourceArea()">Remove Source Area</button>
 </div>
 <div class="parent">
   <source ng-repeat="source in layoutObject" source-data="source" />
@@ -11,10 +12,20 @@
             "resizable": false,
             "draggable": false
         }
-    }'>
+    }' on-open="attachDialog">
     <fieldset>
-        <label for="k">X:</label>
-        <input id="k" type="text">
+        <label for="posX">X:</label>
+        <input id="posX" type="text">
+        <label for="posY">Y:</label>
+        <input id="posY" type="text">
+        <label for="width">Width:</label>
+        <input id="width" type="text">
+        <label for="height">Height:</label>
+        <input id="height" type="text">
+        <label for="deviceId">Device ID:</label>
+        <input id="deviceId" type="text">
+        <label for="channelId">Channel ID:</label>
+        <input id="channelId" type="text">
     </fieldset>
 </div>
 </div>

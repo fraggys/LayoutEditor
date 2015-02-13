@@ -8,10 +8,17 @@ layoutEditorApp.controller('MainCtrl', function ($scope) {
             posX: "30",
             posY: "60",
             width: "100",
-            height:"100"
+            height:"100",
+            deviceId:"",
+            channelId:""
         }
         $scope.layoutObject.push(srcArea);
     }
+    $scope.removeSourceArea = function(){
+        //TODO implement later
+    }
+
+    $scope.attachDialog = function(e){console.dir(e);}
 });
 
 layoutEditorApp.directive('source', function source() {
