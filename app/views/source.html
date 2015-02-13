@@ -1,7 +1,7 @@
-<div jui-draggable jui-resizable jui-options='{
+<div id="{{sourceData.id}}" jui-draggable jui-resizable jui-options='{
     "draggable":{
         "containment":".parent"
       }
-  }' on-drag="test" ng-dblclick="openDialogWindow()" class="source">
+  }' on-stop="calcPosition" ng-dblclick="openDialogWindow()" class="source">
 {{ sourceData }}
 </div>

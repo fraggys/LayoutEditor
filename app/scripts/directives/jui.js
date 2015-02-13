@@ -9,35 +9,32 @@
             'drag',
             'stop'
         ],
-        'droppable':
-            [
-                'create',
-                'activate',
-                'deactivate',
-                'over',
-                'out'
-            ],
-        'resizable':
-            [
-                'create',
-                'start',
-                'resize',
-                'stop'
-            ],
-        'dialog':
-            [
-                'beforeClose',
-                'close',
-                'create',
-                'drag',
-                'dragStart',
-                'dragStop',
-                'focus',
-                'open',
-                'resize',
-                'resizeStart',
-                'resizeStop'
-            ]
+        'droppable': [
+            'create',
+            'activate',
+            'deactivate',
+            'over',
+            'out'
+        ],
+        'resizable': [
+            'create',
+            'start',
+            'resize',
+            'stop'
+        ],
+        'dialog': [
+            'beforeClose',
+            'close',
+            'create',
+            'drag',
+            'dragStart',
+            'dragStop',
+            'focus',
+            'open',
+            'resize',
+            'resizeStart',
+            'resizeStop'
+        ]
     };
 
     /**
@@ -47,7 +44,6 @@
     String.prototype.capitalize = function () {
         return this.charAt(0).toUpperCase() + this.slice(1);
     }
-
 
 
     var getScopeDefinition = function (eventNames) {
@@ -64,18 +60,19 @@
 
     angular.forEach(Object.keys(components), function (type) {
         var directiveName = 'jui' + type.capitalize()
-        console.log("jui logging "+directiveName);
         angular.module('jui')
-            .directive(directiveName, ['$parse',  function ($parse) {
+            .directive(directiveName, ['$parse', function ($parse) {
                 return {
-                    'restrict' : 'A',
-                    'link' : function (scope, element, attrs) {
-                        var opts = angular.fromJson(attrs.juiOptions)[type];
-                        components[type].forEach(function(event) {
+                    'restrict': 'A',
+                    'link': function (scope, element, attrs) {
+                        var opts = angular.fromJson(attrs.juiOptions)[type] || {};
+                        console.log("options for type " + type + " are " + opts);
+                        components[type].forEach(function (event) {
                             var handlerName = attrs['on' + event.capitalize()];
-                            if (handlerName){
+                            console.log("jui logging handlername " + handlerName);
+                            if (handlerName) {
                                 var handlerExpr = $parse(handlerName);
-                                opts[event] = function (e, ui) {
+                                    opts[event] = function (e, ui) {
                                         var phase = scope.$root.$$phase;
                                         e.element = element;
 
@@ -85,28 +82,28 @@
                                             scope.$apply(callHandler);
                                         }
 
-                                        function callHandler () {
-                                            var fn = handlerExpr(scope, {'$event':event});
+                                        function callHandler() {
+                                            var fn = handlerExpr(scope, {'$event': event});
 
                                             if (typeof fn === 'function') {
                                                 fn.call(scope, e, ui);
                                             }
                                         }
                                     };
-                            }
+                                }
                         });
                         $(element)[type](opts);
                         var juiInstance = element.data('juiInstance');
 
                         if (!juiInstance) {
-                              $(element)[type](opts);
-                              element.data('juiInstance', true);
-                              scope.$on('$destroy', function () {
-                                  $(element)[type]("destroy");
-                              });
-                            }
+                            $(element)[type](opts);
+                            element.data('juiInstance', true);
+                            scope.$on('$destroy', function () {
+                                $(element)[type]("destroy");
+                            });
                         }
-                    };
+                    }
+                };
             }]);
     });
 

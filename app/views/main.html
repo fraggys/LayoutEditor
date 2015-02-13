@@ -1,8 +1,8 @@
 <div style="border:1em">
-    <button>A button element</button>
+    <button ng-click="addSourceArea()">Add Source Area</button>
 </div>
 <div class="parent">
-  <source ng-repeat="thing in awesomeThings" source-data="thing" />
+  <source ng-repeat="source in layoutObject" source-data="source" />
 </div>
 <div id="dialogWindow" jui-dialog jui-options='{
         "dialog": {
