@@ -66,10 +66,8 @@
                     'restrict': 'A',
                     'link': function (scope, element, attrs) {
                         var opts = angular.fromJson(attrs.juiOptions)[type] || {};
-                        console.log("options for type " + type + " are " + opts);
                         components[type].forEach(function (event) {
                             var handlerName = attrs['on' + event.capitalize()];
-                            console.log("jui logging handlername " + handlerName);
                             if (handlerName) {
                                 var handlerExpr = $parse(handlerName);
                                     opts[event] = function (e, ui) {
