@@ -1,10 +1,10 @@
 <div style="border:1em">
     <button ng-click="addSourceArea()">Add Source Area</button>
-    <button ng-click="removeSourceArea()">Remove Source Area</button>
+    <button ng-click="removeSourceAreaById()"> Remove Source Area</button>
 </div>
 <div class="parent">
-  <source ng-repeat="source in layoutObject" source-data="source" />
-</div>
+    <source ng-repeat="(id,source) in layoutObject" source-data="source" />
+
 <div id="dialogWindow" jui-dialog jui-options='{
         "dialog": {
             "autoOpen": false,
@@ -15,17 +15,18 @@
     }' on-open="attachDialog">
     <fieldset>
         <label for="posX">X:</label>
-        <input id="posX" type="text">
+        <input id="posX" type="text" ng-model="activeObject.posX">
         <label for="posY">Y:</label>
-        <input id="posY" type="text">
+        <input id="posY" type="text" ng-model="activeObject.posY">
         <label for="width">Width:</label>
-        <input id="width" type="text">
+        <input id="width" type="text" ng-model="activeObject.width">
         <label for="height">Height:</label>
-        <input id="height" type="text">
+        <input id="height" type="text" ng-model="activeObject.height">
         <label for="deviceId">Device ID:</label>
-        <input id="deviceId" type="text">
+        <input id="deviceId" type="text" ng-model="activeObject.deviceId">
         <label for="channelId">Channel ID:</label>
-        <input id="channelId" type="text">
+        <input id="channelId" type="text" ng-model="activeObject.channelId">
     </fieldset>
+</div>
 </div>
 </div>

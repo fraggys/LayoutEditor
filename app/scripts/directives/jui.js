@@ -7,7 +7,7 @@
             'create',
             'start',
             'drag',
-            'stop'
+            'stop',
         ],
         'droppable': [
             'create',

@@ -1,24 +1,22 @@
 'use strict';
 
 layoutEditorApp.controller('MainCtrl', function ($scope) {
-    $scope.layoutObject = [];
-    $scope.addSourceArea = function(){
+    $scope.layoutObject = {};
+    $scope.addSourceArea = function () {
+      var id = new Date().getTime();
         var srcArea = {
-            id:new Date().getTime(),
-            posX: "30",
-            posY: "60",
+            id: id,
+            posX: "",
+            posY: "",
             width: "100",
-            height:"100",
-            deviceId:"",
-            channelId:""
+            height: "100",
+            deviceId: "",
+            channelId: ""
         }
-        $scope.layoutObject.push(srcArea);
+        $scope.layoutObject[id]=srcArea;
     }
-    $scope.removeSourceArea = function(){
-        //TODO implement later
+    $scope.removeSourceAreaById = function () {
     }
-
-    $scope.attachDialog = function(e){console.dir(e);}
 });
 
 layoutEditorApp.directive('source', function source() {
@@ -30,6 +28,10 @@ layoutEditorApp.directive('source', function source() {
         scope: {
             sourceData: '='
         },
+        link:function(scope,elem,attr){
+            scope.sourceData.posX = elem[0].offsetLeft;
+            scope.sourceData.posY = elem[0].offsetTop;
+        },
         controller: function ($scope) {
             $scope.calcPosition = function (e) {
                 $scope.sourceData.posX = e.target.offsetLeft;
@@ -38,6 +40,7 @@ layoutEditorApp.directive('source', function source() {
                 $scope.sourceData.height = e.target.offsetHeight;
             }
             $scope.openDialogWindow = function () {
+                $scope.$root.activeObject = $scope.sourceData;
                 $('#dialogWindow').dialog('open');
             }
         }
