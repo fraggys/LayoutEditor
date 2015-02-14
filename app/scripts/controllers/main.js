@@ -2,6 +2,14 @@
 
 layoutEditorApp.controller('MainCtrl', function ($scope) {
     $scope.layoutObject = {};
+    $scope.$watch('activeObject', function(newVal){
+        if(newVal){
+            var id = '#'+newVal.id;
+            $(id).offset({"top":newVal.posY,"left":newVal.posX})
+            .outerWidth(newVal.width)
+            .outerHeight(newVal.height);
+        }
+    },true);
     $scope.addSourceArea = function () {
       var id = new Date().getTime();
         var srcArea = {
@@ -14,9 +22,9 @@ layoutEditorApp.controller('MainCtrl', function ($scope) {
             channelId: ""
         }
         $scope.layoutObject[id]=srcArea;
-    }
+    };
     $scope.removeSourceAreaById = function () {
-    }
+    };
 });
 
 layoutEditorApp.directive('source', function source() {
@@ -38,11 +46,11 @@ layoutEditorApp.directive('source', function source() {
                 $scope.sourceData.posY = e.target.offsetTop;
                 $scope.sourceData.width = e.target.offsetWidth;
                 $scope.sourceData.height = e.target.offsetHeight;
-            }
+            };
             $scope.openDialogWindow = function () {
                 $scope.$root.activeObject = $scope.sourceData;
                 $('#dialogWindow').dialog('open');
-            }
+            };
         }
     };
 });
