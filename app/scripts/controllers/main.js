@@ -32,8 +32,8 @@ layoutEditorApp.controller('MainCtrl', function ($scope) {
             insertion: {
                 posX: "",
                 posY: "",
-                width: "100",
-                height: "100",
+                width: "",
+                height: "",
                 sourceRef: {
                     deviceId: "",
                     channelId: ""
@@ -41,8 +41,6 @@ layoutEditorApp.controller('MainCtrl', function ($scope) {
             }
         };
         $scope.layoutObject[id]=srcArea;
-        $scope.activeObject = srcArea;
-        console.log("asdfas");
     };
     $scope.saveLayout =  function () {
         console.dir($scope.layoutObject);
@@ -62,6 +60,8 @@ layoutEditorApp.directive('source', function source() {
         link:function(scope,elem,attr){
             scope.sourceData.insertion.posX = elem[0].offsetLeft;
             scope.sourceData.insertion.posY = elem[0].offsetTop;
+            scope.sourceData.insertion.width = elem[0].offsetWidth;
+            scope.sourceData.insertion.height = elem[0].offsetHeight;
         },
         controller: function ($scope) {
             $scope.calcPosition = function (e) {
