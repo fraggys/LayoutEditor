@@ -1,29 +1,52 @@
 'use strict';
 
 layoutEditorApp.controller('MainCtrl', function ($scope) {
+    $scope.options = [
+        { label: 'Change Layout', value: '' }
+    ];
+    $scope.layoutName = $scope.options[0];
+
+    $("#addBtn").button({
+        icons:{
+            primary:"ui-icon-plus"
+        }
+    });
+    $("#saveBtn").button({
+        icons: {
+            primary: "ui-icon-disk"
+        }
+    });
     $scope.layoutObject = {};
     $scope.$watch('activeObject', function(newVal){
         if(newVal){
             var id = '#'+newVal.id;
-            $(id).offset({"top":newVal.posY,"left":newVal.posX})
-            .outerWidth(newVal.width)
-            .outerHeight(newVal.height);
+            $(id).offset({"top":newVal.insertion.posY,"left":newVal.insertion.posX})
+                 .outerWidth(newVal.insertion.width)
+                 .outerHeight(newVal.insertion.height);
         }
     },true);
     $scope.addSourceArea = function () {
       var id = new Date().getTime();
         var srcArea = {
             id: id,
-            posX: "",
-            posY: "",
-            width: "100",
-            height: "100",
-            deviceId: "",
-            channelId: ""
-        }
+            insertion: {
+                posX: "",
+                posY: "",
+                width: "100",
+                height: "100",
+                sourceRef: {
+                    deviceId: "",
+                    channelId: ""
+                }
+            }
+        };
         $scope.layoutObject[id]=srcArea;
+        $scope.activeObject = srcArea;
+        console.log("asdfas");
     };
-    $scope.removeSourceAreaById = function () {
+    $scope.saveLayout =  function () {
+        console.dir($scope.layoutObject);
+        console.dir($scope.layoutName);
     };
 });
 
@@ -37,15 +60,15 @@ layoutEditorApp.directive('source', function source() {
             sourceData: '='
         },
         link:function(scope,elem,attr){
-            scope.sourceData.posX = elem[0].offsetLeft;
-            scope.sourceData.posY = elem[0].offsetTop;
+            scope.sourceData.insertion.posX = elem[0].offsetLeft;
+            scope.sourceData.insertion.posY = elem[0].offsetTop;
         },
         controller: function ($scope) {
             $scope.calcPosition = function (e) {
-                $scope.sourceData.posX = e.target.offsetLeft;
-                $scope.sourceData.posY = e.target.offsetTop;
-                $scope.sourceData.width = e.target.offsetWidth;
-                $scope.sourceData.height = e.target.offsetHeight;
+                $scope.sourceData.insertion.posX = e.target.offsetLeft;
+                $scope.sourceData.insertion.posY = e.target.offsetTop;
+                $scope.sourceData.insertion.width = e.target.offsetWidth;
+                $scope.sourceData.insertion.height = e.target.offsetHeight;
             };
             $scope.openDialogWindow = function () {
                 $scope.$root.activeObject = $scope.sourceData;
